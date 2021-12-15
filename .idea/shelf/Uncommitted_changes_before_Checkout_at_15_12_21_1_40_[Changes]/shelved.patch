@@ -1,0 +1,300 @@
+Index: scripts/script.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>const tableBody = document.querySelector('tbody');\nconst filterCategory = document.getElementById('filter');\nconst level = document.getElementById('level')\nconst resultsElement = document.getElementById('returnedResults');\nconst tests = wcagObj['intents'];\n\nfunction populateTable(obj, filter)\n{\n\tlet cssSpan\n\tconst resultsElement = document.getElementById('returnedResults');\n\tconst tests = obj['intents'];\n\tlet returnedResults = 0\n\n\twcagVersion.textContent = obj.latestWCAGversion;\n\n\tfor(let i = 0;i < tests.length; i++)\n\t{\n\t\tconst tableRow = document.createElement('tr');\n\t\tfor (let key in tests[i])\n\t\t{\n\t\t\tif (tests[i].hasOwnProperty(key))\n\t\t\t{\n\t\t\t\tif(key!=='link')\n\t\t\t\t{\n\t\t\t\t\tconst val = tests[i][key]\n\t\t\t\t\tconst tableData = document.createElement('td')\n\n\t\t\t\t\tif(tests[i].category.includes(filter) || filter == 'all')\n\t\t\t\t\t{\n\t\t\t\t\t\tif(key=='category')\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\treturnedResults++;\n\t\t\t\t\t\t\tfor(let a = 0;a < tests[i][key].length; a++)\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\tcssSpan = document.createElement('span')\n\t\t\t\t\t\t\t\tcssSpan.textContent = val[a];\n\t\t\t\t\t\t\t\tcssSpan.classList.add('bg-primary');\n\t\t\t\t\t\t\t\tcssSpan.classList.add('badge');\n\t\t\t\t\t\t\t\tcssSpan.classList.add('rounded-pill');\n\t\t\t\t\t\t\t\ttableData.appendChild(cssSpan);\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t\telse if(key==='wcagLevel')\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\tcssSpan = document.createElement('span')\n\t\t\t\t\t\t\tcssSpan.textContent = val;\n\t\t\t\t\t\t\tcssSpan.classList.add(val);\n\t\t\t\t\t\t\ttableData.appendChild(cssSpan);\n\t\t\t\t\t\t/*\tswitch(val)\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\tcase 'A':\n\t\t\t\t\t\t\t\t\tvar cssSpan = document.createElement('span');\n\t\t\t\t\t\t\t\t\tcssSpan.textContent = val;\n\t\t\t\t\t\t\t\t\tcssSpan.classList.add(val);\n\t\t\t\t\t\t\t\t\t/*cssSpan.classList.add('text-dark');\n\t\t\t\t\t\t\t\t\tcssSpan.classList.add('badge');\n\t\t\t\t\t\t\t\t\tcssSpan.classList.add('rounded-pill');\n\t\t\t\t\t\t\t\t\ttableData.appendChild(cssSpan);\n\t\t\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t\t\t\tcase 'AA':\n\t\t\t\t\t\t\t\t\tvar cssSpan = document.createElement('span');\n\t\t\t\t\t\t\t\t\tcssSpan.textContent = val;\n\t\t\t\t\t\t\t\t\tcssSpan.classList.add('bg-warning');\n\t\t\t\t\t\t\t\t\tcssSpan.classList.add('text-dark');\n\t\t\t\t\t\t\t\t\tcssSpan.classList.add('badge');\n\t\t\t\t\t\t\t\t\tcssSpan.classList.add('rounded-pill');\n\t\t\t\t\t\t\t\t\ttableData.appendChild(cssSpan);\n\t\t\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t\t\t\tcase 'AAA':\n\t\t\t\t\t\t\t\t\tvar cssSpan = document.createElement('span');\n\t\t\t\t\t\t\t\t\tcssSpan.textContent = val;\n\t\t\t\t\t\t\t\t\tcssSpan.classList.add('bg-danger');\n\t\t\t\t\t\t\t\t\tcssSpan.classList.add('badge');\n\t\t\t\t\t\t\t\t\tcssSpan.classList.add('rounded-pill');\n\t\t\t\t\t\t\t\t\ttableData.appendChild(cssSpan);\n\t\t\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t\t\t\tdefault:\n\t\t\t\t\t\t\t\t\ttableData.textContent = val;\n\t\t\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t\t\t} */\n\t\t\t\t\t\t}\n\t\t\t\t\t\telse if (key == 'category') {\n\t\t\t\t\t\t\treturnedResults++;\n\t\t\t\t\t\t\tfor (let a = 0; a < tests[i][key].length; a++) {\n\t\t\t\t\t\t\t\tvar cssSpan = document.createElement('span');\n\t\t\t\t\t\t\t\tcssSpan.textContent = val[a];\n\t\t\t\t\t\t\t\tcssSpan.classList.add('bg-primary');\n\t\t\t\t\t\t\t\tcssSpan.classList.add('badge');\n\t\t\t\t\t\t\t\tcssSpan.classList.add('rounded-pill');\n\t\t\t\t\t\t\t\ttableData.appendChild(cssSpan);\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t\telse if (key == 'understandingCriteria') {\n\t\t\t\t\t\t\tconst a = document.createElement('a');\n\t\t\t\t\t\t\tconst linkText = document.createTextNode(val);\n\t\t\t\t\t\t\ta.appendChild(linkText);\n\t\t\t\t\t\t\ta.title = val\n\t\t\t\t\t\t\ta.target = '_blank';\n\t\t\t\t\t\t\ta.href = tests[i].link;\n\t\t\t\t\t\t\ttableData.appendChild(a);\n\t\t\t\t\t\t}\n\t\t\t\t\t\telse if(key=='benefit')\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\tconst ul = document.createElement('ul');\n\t\t\t\t\t\t\tconst lista = val.split(\"#\")\n\t\t\t\t\t\t\tlista.forEach(element => {\n\t\t\t\t\t\t\t\tconst li = document.createElement('li');\n\t\t\t\t\t\t\t\tconst liText = document.createTextNode(element);\n\t\t\t\t\t\t\t\tli.appendChild(liText);\n\t\t\t\t\t\t\t\tul.appendChild(li)\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\t\ttableData.appendChild(ul);\n\t\t\t\t\t\t}\n\t\t\t\t\t\telse if (key = \"intent\") {\n\t\t\t\t\t\t\tconst pText = val.split(\"#\")\n\t\t\t\t\t\t\tpText.forEach(element => {\n\t\t\t\t\t\t\t\tconst p = document.createElement('p');\n\t\t\t\t\t\t\t\tconst pText = document.createTextNode(element);\n\t\t\t\t\t\t\t\tp.appendChild(pText);\n\t\t\t\t\t\t\t\ttableData.appendChild(p);\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\t}\n\t\t\t\t\t\ttableRow.appendChild(tableData);\n\t\t\t\t\t\ttableBody.appendChild(tableRow);\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\tresultsElement.textContent = returnedResults;\n}\n\nfunction btnCategory(btn) {\n\tfilterCategory.textContent = btn.textContent;\n\tpopulateTable();\n}\n\nfunction btnLevel(btn) {\n\tconst contentLevel = btn.textContent\n\tconst arrayLevels = level.innerHTML.split(\",\")\n\n\tif (contentLevel == \"All\") {\n\t\tlevel.textContent = 'All'\n\t}\n\telse if (arrayLevels.indexOf(contentLevel) !== -1) {\n\t\tconst newArray = arrayLevels.filter(item => item != contentLevel)\n\t\tlevel.textContent = newArray.join()\n\t\tif (level.innerHTML == \"\") {\n\t\t\tlevel.textContent = 'All'\n\t\t}\n\t}\n\telse {\n\n\t\tif (arrayLevels.indexOf('All') !== -1) {\n\t\t\tarrayLevels.splice(arrayLevels.indexOf('All'), 1)\n\t\t\tlevel.textContent = arrayLevels.join()\n\t\t}\n\t\tarrayLevels.push(contentLevel)\n\t\tif (arrayLevels.length === 3) {\n\t\t\tlevel.textContent = 'All'\n\t\t} else {\n\t\tlevel.textContent = arrayLevels.join()\n\t\t}\n\t}\n\tpopulateTable();\n}\n\nconst hashstring = window.location.hash;\nswitch (hashstring.replace('#', '')) {\n\tcase 'dynamic-content':\n\tcase 'custom-controls':\n\tcase 'forms-and-UI':\n\tcase 'audio-video':\n\tcase 'structure':\n\tcase 'colour':\n\tcase 'content':\n\tcase 'keyboard':\n\tcase 'link':\n\tcase 'font-size':\n\t\tpopulateTable();\n\t\tbreak;\n\tdefault:\n\t\tpopulateTable();\n\t\tbreak;\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/scripts/script.js b/scripts/script.js
+--- a/scripts/script.js	(revision c43eb2a342bd6575424671d0c2efa34c2b647a37)
++++ b/scripts/script.js	(date 1639528438659)
+@@ -1,185 +1,115 @@
+-const tableBody = document.querySelector('tbody');
+-const filterCategory = document.getElementById('filter');
++const tableBody = document.querySelector('tbody')
++const filterCategory = document.getElementById('filter')
+ const level = document.getElementById('level')
+-const resultsElement = document.getElementById('returnedResults');
+-const tests = wcagObj['intents'];
++const resultsElement = document.getElementById('returnedResults')
++const tests = wcagObj['intents']
+ 
+-function populateTable(obj, filter)
+-{
+-	let cssSpan
+-	const resultsElement = document.getElementById('returnedResults');
+-	const tests = obj['intents'];
+-	let returnedResults = 0
+-
+-	wcagVersion.textContent = obj.latestWCAGversion;
+-
+-	for(let i = 0;i < tests.length; i++)
+-	{
+-		const tableRow = document.createElement('tr');
+-		for (let key in tests[i])
+-		{
+-			if (tests[i].hasOwnProperty(key))
+-			{
+-				if(key!=='link')
+-				{
+-					const val = tests[i][key]
+-					const tableData = document.createElement('td')
++function populateTable (obj, filter) {
++  let cssSpan
++  const resultsElement = document.getElementById('returnedResults')
++  let returnedResults = 0
++  for (let i = 0; i < tests.length; i++) {
++    const tableRow = document.createElement('tr')
++    for (let key in tests[i]) {
++      if (tests[i].hasOwnProperty(key)) {
++        if (key !== 'link') {
++          const val = tests[i][key]
++          const tableData = document.createElement('td')
+ 
+-					if(tests[i].category.includes(filter) || filter == 'all')
+-					{
+-						if(key=='category')
+-						{
+-							returnedResults++;
+-							for(let a = 0;a < tests[i][key].length; a++)
+-							{
+-								cssSpan = document.createElement('span')
+-								cssSpan.textContent = val[a];
+-								cssSpan.classList.add('bg-primary');
+-								cssSpan.classList.add('badge');
+-								cssSpan.classList.add('rounded-pill');
+-								tableData.appendChild(cssSpan);
+-							}
+-						}
+-						else if(key==='wcagLevel')
+-						{
+-							cssSpan = document.createElement('span')
+-							cssSpan.textContent = val;
+-							cssSpan.classList.add(val);
+-							tableData.appendChild(cssSpan);
+-						/*	switch(val)
+-							{
+-								case 'A':
+-									var cssSpan = document.createElement('span');
+-									cssSpan.textContent = val;
+-									cssSpan.classList.add(val);
+-									/*cssSpan.classList.add('text-dark');
+-									cssSpan.classList.add('badge');
+-									cssSpan.classList.add('rounded-pill');
+-									tableData.appendChild(cssSpan);
+-									break;
+-								case 'AA':
+-									var cssSpan = document.createElement('span');
+-									cssSpan.textContent = val;
+-									cssSpan.classList.add('bg-warning');
+-									cssSpan.classList.add('text-dark');
+-									cssSpan.classList.add('badge');
+-									cssSpan.classList.add('rounded-pill');
+-									tableData.appendChild(cssSpan);
+-									break;
+-								case 'AAA':
+-									var cssSpan = document.createElement('span');
+-									cssSpan.textContent = val;
+-									cssSpan.classList.add('bg-danger');
+-									cssSpan.classList.add('badge');
+-									cssSpan.classList.add('rounded-pill');
+-									tableData.appendChild(cssSpan);
+-									break;
+-								default:
+-									tableData.textContent = val;
+-									break;
+-							} */
+-						}
+-						else if (key == 'category') {
+-							returnedResults++;
+-							for (let a = 0; a < tests[i][key].length; a++) {
+-								var cssSpan = document.createElement('span');
+-								cssSpan.textContent = val[a];
+-								cssSpan.classList.add('bg-primary');
+-								cssSpan.classList.add('badge');
+-								cssSpan.classList.add('rounded-pill');
+-								tableData.appendChild(cssSpan);
+-							}
+-						}
+-						else if (key == 'understandingCriteria') {
+-							const a = document.createElement('a');
+-							const linkText = document.createTextNode(val);
+-							a.appendChild(linkText);
+-							a.title = val
+-							a.target = '_blank';
+-							a.href = tests[i].link;
+-							tableData.appendChild(a);
+-						}
+-						else if(key=='benefit')
+-						{
+-							const ul = document.createElement('ul');
+-							const lista = val.split("#")
+-							lista.forEach(element => {
+-								const li = document.createElement('li');
+-								const liText = document.createTextNode(element);
+-								li.appendChild(liText);
+-								ul.appendChild(li)
+-							});
+-							tableData.appendChild(ul);
+-						}
+-						else if (key = "intent") {
+-							const pText = val.split("#")
+-							pText.forEach(element => {
+-								const p = document.createElement('p');
+-								const pText = document.createTextNode(element);
+-								p.appendChild(pText);
+-								tableData.appendChild(p);
+-							});
+-						}
+-						tableRow.appendChild(tableData);
+-						tableBody.appendChild(tableRow);
+-					}
+-				}
+-			}
+-		}
+-	}
+-	resultsElement.textContent = returnedResults;
++          if (tests[i].category.includes(filter) || filter === 'all') {
++            if (key === 'category') {
++              returnedResults++
++              for (let a = 0; a < tests[i][key].length; a++) {
++                cssSpan = document.createElement('span')
++                cssSpan.textContent = val[a]
++                cssSpan.classList.add('bg-primary')
++                cssSpan.classList.add('badge')
++                cssSpan.classList.add('rounded-pill')
++                tableData.appendChild(cssSpan)
++              }
++            } else if (key === 'wcagLevel') {
++              cssSpan = document.createElement('span')
++              cssSpan.textContent = val
++              cssSpan.classList.add(val)
++              tableData.appendChild(cssSpan)
++            } else if (key === 'category') {
++              returnedResults++
++              for (let a = 0; a < tests[i][key].length; a++) {
++                cssSpan = document.createElement('span')
++                cssSpan.textContent = val[a]
++                cssSpan.classList.add('bg-primary')
++                cssSpan.classList.add('badge')
++                cssSpan.classList.add('rounded-pill')
++                tableData.appendChild(cssSpan)
++              }
++            } else if (key === 'understandingCriteria') {
++              const a = document.createElement('a')
++              const linkText = document.createTextNode(val)
++              a.appendChild(linkText)
++              a.title = val
++              a.target = '_blank'
++              a.href = tests[i].link
++              tableData.appendChild(a)
++            } else if (key === 'benefit') {
++              const ul = document.createElement('ul')
++              const lista = val.split('#')
++              lista.forEach(element => {
++                const li = document.createElement('li')
++                const liText = document.createTextNode(element)
++                li.appendChild(liText)
++                ul.appendChild(li)
++              })
++              tableData.appendChild(ul)
++            } else if (key === 'intent') {
++              const pText = val.split('#')
++              pText.forEach(element => {
++                const p = document.createElement('p')
++                const pText = document.createTextNode(element)
++                p.appendChild(pText)
++                tableData.appendChild(p)
++              })
++            }
++            tableRow.appendChild(tableData)
++            tableBody.appendChild(tableRow)
++          }
++        }
++      }
++    }
++  }
++  resultsElement.textContent = returnedResults
+ }
+ 
+-function btnCategory(btn) {
+-	filterCategory.textContent = btn.textContent;
+-	populateTable();
++function btnCategory (btn) {
++  filterCategory.textContent = btn.textContent
++  populateTable()
+ }
+ 
+-function btnLevel(btn) {
+-	const contentLevel = btn.textContent
+-	const arrayLevels = level.innerHTML.split(",")
++function btnLevel (btn) {
++  const contentLevel = btn.textContent
++  const arrayLevels = level.innerHTML.split(',')
+ 
+-	if (contentLevel == "All") {
+-		level.textContent = 'All'
+-	}
+-	else if (arrayLevels.indexOf(contentLevel) !== -1) {
+-		const newArray = arrayLevels.filter(item => item != contentLevel)
+-		level.textContent = newArray.join()
+-		if (level.innerHTML == "") {
+-			level.textContent = 'All'
+-		}
+-	}
+-	else {
++  if (contentLevel === 'All') {
++    level.textContent = 'All'
++  } else if (arrayLevels.indexOf(contentLevel) !== -1) {
++    const newArray = arrayLevels.filter(item => item !== contentLevel)
++    level.textContent = newArray.join()
++    if (level.innerHTML === '') {
++      level.textContent = 'All'
++    }
++  } else {
+ 
+-		if (arrayLevels.indexOf('All') !== -1) {
+-			arrayLevels.splice(arrayLevels.indexOf('All'), 1)
+-			level.textContent = arrayLevels.join()
+-		}
+-		arrayLevels.push(contentLevel)
+-		if (arrayLevels.length === 3) {
+-			level.textContent = 'All'
+-		} else {
+-		level.textContent = arrayLevels.join()
+-		}
+-	}
+-	populateTable();
++    if (arrayLevels.indexOf('All') !== -1) {
++      arrayLevels.splice(arrayLevels.indexOf('All'), 1)
++      level.textContent = arrayLevels.join()
++    }
++    arrayLevels.push(contentLevel)
++    if (arrayLevels.length === 3) {
++      level.textContent = 'All'
++    } else {
++      level.textContent = arrayLevels.join()
++    }
++  }
++  populateTable()
+ }
+ 
+-const hashstring = window.location.hash;
+-switch (hashstring.replace('#', '')) {
+-	case 'dynamic-content':
+-	case 'custom-controls':
+-	case 'forms-and-UI':
+-	case 'audio-video':
+-	case 'structure':
+-	case 'colour':
+-	case 'content':
+-	case 'keyboard':
+-	case 'link':
+-	case 'font-size':
+-		populateTable();
+-		break;
+-	default:
+-		populateTable();
+-		break;
+-}
++populateTable()

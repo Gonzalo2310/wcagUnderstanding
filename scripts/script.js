@@ -4,80 +4,23 @@ const level = document.getElementById('level')
 const resultsElement = document.getElementById('returnedResults');
 const tests = wcagObj['intents'];
 
-function populateTable(obj, filter)
-{
-	let cssSpan
-	const resultsElement = document.getElementById('returnedResults');
-	const tests = obj['intents'];
-	let returnedResults = 0
-
-	wcagVersion.textContent = obj.latestWCAGversion;
-
-	for(let i = 0;i < tests.length; i++)
-	{
-		const tableRow = document.createElement('tr');
-		for (let key in tests[i])
-		{
-			if (tests[i].hasOwnProperty(key))
-			{
-				if(key!=='link')
-				{
-					const val = tests[i][key]
-					const tableData = document.createElement('td')
-
-					if(tests[i].category.includes(filter) || filter == 'all')
-					{
-						if(key=='category')
-						{
-							returnedResults++;
-							for(let a = 0;a < tests[i][key].length; a++)
-							{
-								cssSpan = document.createElement('span')
-								cssSpan.textContent = val[a];
-								cssSpan.classList.add('bg-primary');
-								cssSpan.classList.add('badge');
-								cssSpan.classList.add('rounded-pill');
-								tableData.appendChild(cssSpan);
-							}
-						}
-						else if(key==='wcagLevel')
-						{
+function populateTable() {
+	const filterLevel = level.innerHTML.split(",")
+	var returnedResults = 0;
+	tableBody.innerHTML = '';
+	for (let i = 0; i < tests.length; i++) {
+		if ((tests[i].category.includes(filterCategory.innerHTML) || filterCategory.innerHTML == 'all') && (filterLevel.find(item => item === tests[i].wcagLevel) || filterLevel[0] === 'All' )) {
+			const tableRow = document.createElement('tr');
+			for (var key in tests[i]) {
+				if (tests[i].hasOwnProperty(key)) {
+					if (key !== 'link') {
+						var val = tests[i][key];
+						var tableData = document.createElement('td');
+						if (key == 'wcagLevel') {
 							cssSpan = document.createElement('span')
 							cssSpan.textContent = val;
 							cssSpan.classList.add(val);
 							tableData.appendChild(cssSpan);
-						/*	switch(val)
-							{
-								case 'A':
-									var cssSpan = document.createElement('span');
-									cssSpan.textContent = val;
-									cssSpan.classList.add(val);
-									/*cssSpan.classList.add('text-dark');
-									cssSpan.classList.add('badge');
-									cssSpan.classList.add('rounded-pill');
-									tableData.appendChild(cssSpan);
-									break;
-								case 'AA':
-									var cssSpan = document.createElement('span');
-									cssSpan.textContent = val;
-									cssSpan.classList.add('bg-warning');
-									cssSpan.classList.add('text-dark');
-									cssSpan.classList.add('badge');
-									cssSpan.classList.add('rounded-pill');
-									tableData.appendChild(cssSpan);
-									break;
-								case 'AAA':
-									var cssSpan = document.createElement('span');
-									cssSpan.textContent = val;
-									cssSpan.classList.add('bg-danger');
-									cssSpan.classList.add('badge');
-									cssSpan.classList.add('rounded-pill');
-									tableData.appendChild(cssSpan);
-									break;
-								default:
-									tableData.textContent = val;
-									break;
-							} */
 						}
 						else if (key == 'category') {
 							returnedResults++;
@@ -99,8 +42,7 @@ function populateTable(obj, filter)
 							a.href = tests[i].link;
 							tableData.appendChild(a);
 						}
-						else if(key=='benefit')
-						{
+						else if (key == 'benefit') {
 							const ul = document.createElement('ul');
 							const lista = val.split("#")
 							lista.forEach(element => {
